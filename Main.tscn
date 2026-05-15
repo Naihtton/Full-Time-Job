@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cr24y0tcd8cmq" path="res://player.gd" id="1_uu6xs"]
 [ext_resource type="Texture2D" uid="uid://uh23yew1rq1n" path="res://invisible-man-horror-svgrepo-com.svg" id="2_cm0pq"]
-[ext_resource type="Script" uid="uid://bygoevxrn7cco" path="res://zombie.gd" id="3_r0du0"]
-[ext_resource type="Texture2D" uid="uid://7ohur8o0ua3e" path="res://zombie-svgrepo-com.svg" id="4_fos0i"]
+[ext_resource type="Script" uid="uid://cuv1fklvrrqac" path="res://zombie_spawner.gd" id="3_r0du0"]
+[ext_resource type="PackedScene" uid="uid://t1ksskwd6sfu" path="res://Zombie.tscn" id="4_cm0pq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cm0pq"]
-size = Vector2(126, 127)
+size = Vector2(110, 127)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_r0du0"]
 radius = 101.3077
@@ -28,7 +28,7 @@ scale = Vector2(0.158125, 0.158125)
 texture = ExtResource("2_cm0pq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1846619245]
-position = Vector2(0, -0.5)
+position = Vector2(-1, -0.5)
 shape = SubResource("RectangleShape2D_cm0pq")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1497663050]
@@ -40,15 +40,6 @@ position = Vector2(0, -0.5)
 shape = SubResource("CircleShape2D_r0du0")
 debug_color = Color(0.9172809, 0.049469106, 0.6894807, 0.41960785)
 
-[node name="Zombie" type="CharacterBody2D" parent="." unique_id=1020540228]
-position = Vector2(293, -181)
+[node name="ZombieSpawner" type="Node" parent="." unique_id=618702108]
 script = ExtResource("3_r0du0")
-
-[node name="Sprite2D" type="Sprite2D" parent="Zombie" unique_id=342545823]
-position = Vector2(67.999985, -1.9073486e-06)
-scale = Vector2(0.15562497, 0.15562497)
-texture = ExtResource("4_fos0i")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie" unique_id=9666686]
-position = Vector2(67, 1)
-shape = SubResource("RectangleShape2D_cm0pq")
+zombie_scene = ExtResource("4_cm0pq")

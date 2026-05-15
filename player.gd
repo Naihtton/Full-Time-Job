@@ -7,7 +7,7 @@ extends CharacterBody2D
 
 var hp := 0
 var can_attack := true
-
+@onready var sprite: Sprite2D = $Sprite2D
 @onready var attack_area: Area2D = $AttackArea
 
 func _ready():
@@ -34,8 +34,14 @@ func attack():
 	print("Player Attack")
 
 	for body in attack_area.get_overlapping_bodies():
-		if body.has_method("take_damage"):
+		if body == self:
+			continue
+
+		if body.is_in_group("zombie") and body.has_method("take_damage"):
 			body.take_damage(attack_damage)
+
+			if body.has_method("apply_knockback"):
+				body.apply_knockback(global_position)
 
 	await get_tree().create_timer(attack_cooldown).timeout
 	can_attack = true
@@ -43,6 +49,10 @@ func attack():
 func take_damage(amount):
 	hp -= amount
 	print("Player HP:", hp)
+	if sprite != null:
+		sprite.modulate = Color.RED
+		await get_tree().create_timer(0.1).timeout
+		sprite.modulate = Color.WHITE
 
 	if hp <= 0:
 		die()

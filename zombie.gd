@@ -3,8 +3,13 @@ extends CharacterBody2D
 @export var speed := 100.0
 @export var max_hp := 3
 @export var damage := 1
-@export var attack_range := 120.0
+@export var attack_range := 100.0
 @export var attack_cooldown := 1.0
+@export var knockback_force := 450.0
+@export var knockback_time := 0.15
+
+var knockback_velocity := Vector2.ZERO
+var is_knocked_back := false
 
 var hp := 0
 var player: Node2D
@@ -17,6 +22,11 @@ func _ready():
 	player = get_tree().get_first_node_in_group("player")
 
 func _physics_process(delta):
+	if is_knocked_back:
+		velocity = knockback_velocity
+		move_and_slide()
+		return
+
 	if player == null:
 		return
 
@@ -30,6 +40,7 @@ func _physics_process(delta):
 
 		if can_attack:
 			attack()
+
 	move_and_slide()
 
 func attack():

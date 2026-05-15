@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://ckdv7ssb8oxuv"]
+
+[ext_resource type="Script" uid="uid://cr24y0tcd8cmq" path="res://player.gd" id="1_uu6xs"]
+[ext_resource type="Texture2D" uid="uid://1k3dmhklmbpl" path="res://icon.svg" id="2_r0du0"]
+[ext_resource type="Script" uid="uid://bygoevxrn7cco" path="res://zombie.gd" id="3_r0du0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cm0pq"]
+size = Vector2(126, 127)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r0du0"]
+
+[node name="Node2D" type="Node2D" unique_id=1092039563]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=968556101]
+offset_left = -580.0
+offset_top = -328.0
+offset_right = -69.0
+offset_bottom = 323.0
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=961492068 groups=["player"]]
+script = ExtResource("1_uu6xs")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=2015264624]
+texture = ExtResource("2_r0du0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1846619245]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_cm0pq")
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1497663050]
+
+[node name="AttackArea" type="Area2D" parent="Player" unique_id=1431776281]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/AttackArea" unique_id=359534916]
+position = Vector2(0, -0.5)
+shape = SubResource("CircleShape2D_r0du0")
+debug_color = Color(0.9172809, 0.049469106, 0.6894807, 0.41960785)
+
+[node name="Zombie" type="CharacterBody2D" parent="." unique_id=1020540228]
+position = Vector2(293, -181)
+script = ExtResource("3_r0du0")
+
+[node name="Sprite2D" type="Sprite2D" parent="Zombie" unique_id=342545823]
+texture = ExtResource("2_r0du0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie" unique_id=9666686]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_cm0pq")

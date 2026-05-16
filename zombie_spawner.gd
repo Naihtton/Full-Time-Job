@@ -8,6 +8,7 @@ var side = randi() % 4
 var pos = Vector2.ZERO
 
 func _ready():
+	await get_tree().process_frame
 	start_wave_loop()
 
 func start_wave_loop():
@@ -28,15 +29,18 @@ func start_wave_loop():
 		await get_tree().create_timer(5.0).timeout
 
 func spawn_zombie():
-
 	var zombie = zombie_scene.instantiate()
 
-	get_parent().add_child(zombie)
-
 	match side:
-		0: pos = Vector2(randf_range(-200, 1200), -100)
-		1: pos = Vector2(randf_range(-200, 1200), 900)
-		2: pos = Vector2(-100, randf_range(-200, 900))
-		3: pos = Vector2(1300, randf_range(-200, 900))
+		0:
+			pos = Vector2(randf_range(-200, 1200), -100)
+		1:
+			pos = Vector2(randf_range(-200, 1200), 900)
+		2:
+			pos = Vector2(-100, randf_range(-200, 900))
+		3:
+			pos = Vector2(1300, randf_range(-200, 900))
 
 	zombie.global_position = pos
+
+	get_parent().add_child.call_deferred(zombie)

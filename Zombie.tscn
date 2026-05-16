@@ -4,16 +4,16 @@
 [ext_resource type="Texture2D" uid="uid://7ohur8o0ua3e" path="res://zombie-svgrepo-com.svg" id="2_vrb4v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cm0pq"]
-size = Vector2(110, 127)
+size = Vector2(39, 38.75)
 
 [node name="Zombie" type="CharacterBody2D" unique_id=858543 groups=["zombie"]]
 script = ExtResource("1_g6hu2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=488238437]
 position = Vector2(67.999985, -1.9073486e-06)
-scale = Vector2(0.15562497, 0.15562497)
+scale = Vector2(0.05, 0.05)
 texture = ExtResource("2_vrb4v")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1461070796]
-position = Vector2(67, 1)
+position = Vector2(68, 0)
 shape = SubResource("RectangleShape2D_cm0pq")

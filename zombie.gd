@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var speed := 100.0
 @export var max_hp := 3
 @export var damage := 1
-@export var attack_range := 100.0
+@export var attack_range := 50.0
 @export var attack_cooldown := 1.0
 @export var knockback_force := 600.0
 @export var knockback_time := 0.18

@@ -16,6 +16,8 @@ var current_weapon = {
 
 @onready var attack_area: Area2D = $AttackArea
 @onready var attack_effect: Sprite2D = $AttackEffect
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+var last_direction := "down"
 
 func _ready():
 	hp = max_hp
@@ -31,6 +33,7 @@ func _physics_process(_delta):
 
 	velocity = direction * speed
 	move_and_slide()
+	update_animation(direction)
 
 	if Input.is_action_just_pressed("ui_accept"):
 		attack()
@@ -57,6 +60,17 @@ func _input(event):
 				"damage": 2,
 				"cooldown": 0.35
 			})
+			
+func update_animation(direction: Vector2):
+	if direction != Vector2.ZERO:
+		if abs(direction.x) > abs(direction.y):
+			last_direction = "right" if direction.x > 0 else "left"
+		else:
+			last_direction = "down" if direction.y > 0 else "up"
+
+		animated_sprite.play("walk_" + last_direction)
+	else:
+		animated_sprite.play("idle_" + last_direction)
 			
 func play_attack_effect():
 	attack_effect.visible = true

@@ -1,0 +1,117 @@
+// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
+package th.co.scb.sonic.web.controller;
+
+import java.util.function.Function;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import th.co.scb.sonic.common.model.Response;
+import th.co.scb.sonic.logging.auditlog.AuditEvent;
+import th.co.scb.sonic.logging.auditlog.logger.AuditLogger;
+import th.co.scb.sonic.web.service.ResponseService;
+
+public abstract class BaseController {
+   @Autowired
+   protected ResponseService responseService;
+   @Autowired(
+      required = false
+   )
+   protected AuditLogger auditLogger;
+
+   public BaseController() {
+   }
+
+   protected <T> ResponseEntity<Response<T>> autoMap(Response<T> response) {
+      return this.responseService.toResponseEntity(response);
+   }
+
+   protected <T> ResponseEntity<Response<T>> autoMap(Response<T> response, boolean includeMessageTemplate, boolean translateMessage) {
+      return this.responseService.toResponseEntity(response, includeMessageTemplate, translateMessage);
+   }
+
+   protected <T> ResponseEntity<Response<T>> ok(Response<T> response) {
+      return this.responseService.toResponseEntity(response, HttpStatus.OK);
+   }
+
+   protected <T> ResponseEntity<Response<T>> ok(Response<T> response, boolean includeMessageTemplate, boolean translateMessage) {
+      return this.responseService.toResponseEntity(response, HttpStatus.OK, includeMessageTemplate, translateMessage);
+   }
+
+   protected <T> ResponseEntity<Response<T>> created(Response<T> response) {
+      return this.responseService.toResponseEntity(response, HttpStatus.CREATED);
+   }
+
+   protected <T> ResponseEntity<Response<T>> created(Response<T> response, boolean includeMessageTemplate, boolean translateMessage) {
+      return this.responseService.toResponseEntity(response, HttpStatus.CREATED, includeMessageTemplate, translateMessage);
+   }
+
+   protected <T> ResponseEntity<Response<T>> accepted(Response<T> response) {
+      return this.responseService.toResponseEntity(response, HttpStatus.ACCEPTED);
+   }
+
+   protected <T> ResponseEntity<Response<T>> accepted(Response<T> response, boolean includeMessageTemplate, boolean translateMessage) {
+      return this.responseService.toResponseEntity(response, HttpStatus.ACCEPTED, includeMessageTemplate, translateMessage);
+   }
+
+   protected <T> ResponseEntity<Response<T>> noContent(Response<T> response) {
+      return this.responseService.toResponseEntity(response, HttpStatus.NO_CONTENT);
+   }
+
+   protected <T> ResponseEntity<Response<T>> noContent(Response<T> response, boolean includeMessageTemplate, boolean translateMessage) {
+      return this.responseService.toResponseEntity(response, HttpStatus.NO_CONTENT, includeMessageTemplate, translateMessage);
+   }
+
+   protected <T> ResponseEntity<Response<T>> badRequest(Response<T> response) {
+      return this.responseService.toResponseEntity(response, HttpStatus.BAD_REQUEST);
+   }
+
+   protected <T> ResponseEntity<Response<T>> badRequest(Response<T> response, boolean includeMessageTemplate, boolean translateMessage) {
+      return this.responseService.toResponseEntity(response, HttpStatus.BAD_REQUEST, includeMessageTemplate, translateMessage);
+   }
+
+   protected <T> ResponseEntity<Response<T>> notFound(Response<T> response) {
+      return this.responseService.toResponseEntity(response, HttpStatus.NOT_FOUND);
+   }
+
+   protected <T> ResponseEntity<Response<T>> notFound(Response<T> response, boolean includeMessageTemplate, boolean translateMessage) {
+      return this.responseService.toResponseEntity(response, HttpStatus.NOT_FOUND, includeMessageTemplate, translateMessage);
+   }
+
+   protected <T> ResponseEntity<Response<T>> status(Response<T> response, HttpStatus status) {
+      return this.responseService.toResponseEntity(response, status);
+   }
+
+   protected <T> ResponseEntity<Response<T>> status(Response<T> response, HttpStatus status, boolean includeMessageTemplate, boolean translateMessage) {
+      return this.responseService.toResponseEntity(response, status, includeMessageTemplate, translateMessage);
+   }
+
+   protected <T> T executeWithAudit(AuditEvent.AuditEventBuilder auditEventBuilder, Function<AuditEvent.AuditEventBuilder, T> operation) {
+      if (this.auditLogger == null) {
+         return operation.apply(auditEventBuilder);
+      } else {
+         Object var3;
+         try {
+            var3 = operation.apply(auditEventBuilder);
+         } catch (Exception var7) {
+            throw var7;
+         } finally {
+            this.auditLogger.log(auditEventBuilder.build());
+         }
+
+         return var3;
+      }
+   }
+
+   protected AuditEvent.AuditEventBuilder buildAuditEvent(String screenName, String eventName, Boolean isPII, Boolean isSOC) {
+      return AuditEvent.builder().screenName(screenName).eventName(eventName).isSendToPII(isPII).isSendToSOC(isSOC).status(false);
+   }
+
+   protected AuditEvent.AuditEventBuilder buildAuditEvent(String screenName, String eventName, String destinationRecordId, Boolean isPII) {
+      AuditEvent.AuditEventBuilder builder = this.buildAuditEvent(screenName, eventName, isPII, false);
+      if (destinationRecordId != null) {
+         builder.destinationRecordId(destinationRecordId);
+      }
+
+      return builder;
+   }
+}
